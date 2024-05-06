@@ -27,6 +27,7 @@ router.post("/register", async (req, res) => {
     const userdetails = await user.save();
 
     res.status(201).json({ message: "registered successfully" });
+    res.send('dp you did')
   } catch {
     (err) => {
       console.log(err);
