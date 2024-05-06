@@ -6,7 +6,7 @@ const cors = require('cors')
 
 const app = express();
 app.use(cors({
-  origin:'*'
+  origin:'http://localhost:3004'
 }))
 app.use(cookieParser());
 
