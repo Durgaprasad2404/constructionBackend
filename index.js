@@ -2,20 +2,15 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const express = require("express");
 const cookieParser = require("cookie-parser");
-const cors = require('cors')
+const cors = require("cors");
 
 const app = express();
-app.use(cors({
-  origin:'http://localhost:3004'
-}))
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3004');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  next();
-});
 app.use(cookieParser());
 
 dotenv.config({ path: "./config.env" });

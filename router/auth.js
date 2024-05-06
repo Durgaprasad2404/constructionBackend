@@ -4,7 +4,7 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const authenticate = require("../middleware/authenticate");
 const cookieParse = require("cookie-parser");
-const cors = require('cors')
+const cors = require("cors");
 
 require("../db/connection");
 const User = require("../model/userSchema");
@@ -28,7 +28,7 @@ router.post("/register", async (req, res) => {
     const userdetails = await user.save();
 
     res.status(201).json({ message: "registered successfully" });
-    res.send('dp you did')
+    res.send("dp you did");
   } catch {
     (err) => {
       console.log(err);
@@ -70,7 +70,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/user", authenticate,cors(), (req, res) => {
+router.get("/user", authenticate, cors(), (req, res) => {
   res.send(req.rootUser);
 });
 
