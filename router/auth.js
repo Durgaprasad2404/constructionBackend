@@ -72,7 +72,6 @@ router.post("/api/login", async (req, res) => {
 });
 
 router.get("/api/user", authenticate, (req, res) => {
-  res.header("Access-Control-Allow-Credentials", "true");
   res.send(req.rootUser);
 });
 
