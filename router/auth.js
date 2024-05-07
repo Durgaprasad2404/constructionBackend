@@ -3,15 +3,14 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const authenticate = require("../middleware/authenticate");
-const cookieParse = require("cookie-parser");
-const cors = require("cors");
+const cookieParser = require("cookie-parser");
 
+router.use(cookieParser());
 require("../db/connection");
 const User = require("../model/userSchema");
-router.use(cookieParse());
 //register
 
-router.post("/register", async (req, res) => {
+router.post("/api/register", async (req, res) => {
   const { Username, email, password } = req.body;
   if (!Username || !email || !password) {
     return res.status(422).json({ error: "fill the field" });
@@ -28,7 +27,6 @@ router.post("/register", async (req, res) => {
     const userdetails = await user.save();
 
     res.status(201).json({ message: "registered successfully" });
-    res.send("dp you did");
   } catch {
     (err) => {
       console.log(err);
@@ -38,7 +36,7 @@ router.post("/register", async (req, res) => {
 
 //login
 
-router.post("/login", async (req, res) => {
+router.post("/api/login", async (req, res) => {
   try {
     let token;
     const { email, password } = req.body;
@@ -51,9 +49,10 @@ router.post("/login", async (req, res) => {
     if (userLogin) {
       const isMatch = await bcrypt.compare(password, userLogin.password);
       token = await userLogin.generateAuthToken();
-      // console.log(token);
+      console.log(token);
       res.cookie("jwtoken", token, {
         expires: new Date(Date.now() + 25892000000),
+        httpOnly: true,
       });
 
       if (!isMatch) {
@@ -69,12 +68,12 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/user", authenticate, (req, res) => {
-  res.header('Access-Control-Allow-Credentials', 'true');
+router.get("/api/user", authenticate, (req, res) => {
+  res.header("Access-Control-Allow-Credentials", "true");
   res.send(req.rootUser);
 });
 
-router.get("/logout", (req, res) => {
+router.get("/api/logout", (req, res) => {
   res.clearCookie("jwtoken", { path: "/" });
   res.status(200).send("USER LOGOUT");
 });
