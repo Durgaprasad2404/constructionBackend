@@ -7,7 +7,7 @@ const cors = require("cors");
 const app = express();
 app.use(
   cors({
-    origin: "https://frontendconstruction.netlify.app",
+    origin: "http://localhost:3004",
     credentials: true
   })
 );
