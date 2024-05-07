@@ -9,11 +9,7 @@ const app = express();
 app.use(
   cors({
     origin: "http://localhost:3004",
-<<<<<<< HEAD
     credentials: true,
-=======
-    credentials: true
->>>>>>> 0dfd7d5ca594428dff80a3496a552a23df33f0ae
   })
 );
 // app.use((req, res, next) => {
