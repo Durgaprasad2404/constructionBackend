@@ -51,12 +51,11 @@ router.post("/api/login", async (req, res) => {
       // console.log(userLogin);
       token = await userLogin.generateAuthToken();
       // console.log(token);
-      res.send(token);
       res.cookie("jwtoken", token, {
         expires: new Date(Date.now() + 25892000000),
         httpOnly: true,
         secure: true,
-        SameSite: "None",
+        sameSite: "None",
       });
 
       if (!isMatch) {
