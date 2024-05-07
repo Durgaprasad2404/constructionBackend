@@ -48,11 +48,14 @@ router.post("/api/login", async (req, res) => {
     // console.log(userLogin);
     if (userLogin) {
       const isMatch = await bcrypt.compare(password, userLogin.password);
+      // console.log(userLogin);
       token = await userLogin.generateAuthToken();
-      console.log(token);
+      // console.log(token);
       res.cookie("jwtoken", token, {
         expires: new Date(Date.now() + 25892000000),
         httpOnly: true,
+        secure: true,
+        SameSite: "None",
       });
 
       if (!isMatch) {
