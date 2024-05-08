@@ -5,21 +5,21 @@ const jwt = require("jsonwebtoken");
 const userSchema = new mongoose.Schema({
   Username: {
     type: String,
-    require: true,
+    required: true,
   },
   email: {
     type: String,
-    require: true,
+    required: true,
   },
   password: {
     type: String,
-    require: true,
+    required: true,
   },
   tokens: [
     {
       token: {
         type: String,
-        require: true,
+        required: true,
       },
     },
   ],
@@ -43,6 +43,7 @@ userSchema.methods.generateAuthToken = async function () {
     return token;
   } catch (error) {
     console.log(error);
+    throw new Error("Error generating auth token");
   }
 };
 

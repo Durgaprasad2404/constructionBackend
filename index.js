@@ -7,24 +7,34 @@ const bodyParser = require("body-parser");
 
 const app = express();
 
+// Load environment variables from .env file
+dotenv.config({ path: "./config.env" });
+
+// Connect to MongoDB
+require("./db/connection");
+
+// Middleware to parse JSON request bodies
 app.use(express.json());
-app.use(require("./router/auth"));
+
+// Middleware for handling CORS
 app.use(
   cors({
     origin: "https://construction-g5o3.onrender.com",
     credentials: true,
   })
 );
+
+// Middleware to parse cookies attached to the request
 app.use(cookieParser());
+
+// Middleware to parse JSON request bodies (alternative method)
 app.use(bodyParser.json());
 
-dotenv.config({ path: "./config.env" });
-
-require("./db/connection");
-// const User = require("./model/userSchema");
+// Routes
+app.use(require("./router/auth"));
 
 const PORT = process.env.PORT || 3005;
 
 app.listen(PORT, () => {
-  console.log(`server runs at port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
