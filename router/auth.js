@@ -40,33 +40,41 @@ router.post("/api/register", async (req, res) => {
 // Login route
 router.post("/api/login", async (req, res) => {
   try {
-    let token;
     const { email, password } = req.body;
+
     if (!email || !password) {
-      return res.status(400).json({ err: "Please fill in all the data" });
+      return res.status(400).json({ error: "Please fill in all the data" });
     }
 
     // Find user by email
-    const userLogin = await User.findOne({ email: email });
-    if (userLogin) {
-      // Compare passwords
-      const isMatch = await bcrypt.compare(password, userLogin.password);
-      token = await userLogin.generateAuthToken();
-      // Set JWT token as a cookie
-      res.cookie("jwtoken", token, {
-        expires: new Date(Date.now() + 25892000000),
-        httpOnly: true,
-      });
-      if (!isMatch) {
-        return res.status(400).json({ message: "Invalid password" });
-      } else {
-        return res.json({ message: "User login successful" });
-      }
-    } else {
-      return res.status(400).json({ message: "Invalid credentials" });
+    const userLogin = await User.findOne({ email });
+
+    if (!userLogin) {
+      return res.status(400).json({ error: "Invalid credentials" });
     }
+
+    // Compare passwords
+    const isMatch = await bcrypt.compare(password, userLogin.password);
+
+    if (!isMatch) {
+      return res.status(400).json({ error: "Invalid password" });
+    }
+
+    // Generate token
+    const token = await userLogin.generateAuthToken();
+
+    // Set JWT token as a cookie
+    res.cookie("jwtoken", token, {
+      expires: new Date(Date.now() + 25892000000),
+      httpOnly: true,
+      sameSite: "lax", // Set SameSite attribute
+      secure: true,
+    });
+
+    // Send token in response
+    res.json({ token, message: "User login successful" });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).send("Internal Server Error");
   }
 });
