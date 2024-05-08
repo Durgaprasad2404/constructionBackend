@@ -6,6 +6,9 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const app = express();
+
+app.use(express.json());
+app.use(require("./router/auth"));
 app.use(
   cors({
     origin: "https://construction-g5o3.onrender.com",
@@ -19,9 +22,6 @@ dotenv.config({ path: "./config.env" });
 
 require("./db/connection");
 // const User = require("./model/userSchema");
-
-app.use(express.json());
-app.use(require("./router/auth"));
 
 const PORT = process.env.PORT || 3005;
 
