@@ -51,17 +51,17 @@ router.post("/api/login", async (req, res) => {
       // console.log(userLogin);
       token = await userLogin.generateAuthToken();
       // console.log(token);
-      res.cookie("jwtoken", token, {
-        expires: new Date(Date.now() + 25892000000),
-        httpOnly: true,
-        secure: true,
-        sameSite: "None",
-      });
 
       if (!isMatch) {
         res.status(400).json({ message: "Invalid password" });
       } else {
         res.json({ message: "user login successfully" });
+        res.cookie("jwtoken", token, {
+          expires: new Date(Date.now() + 25892000000),
+          httpOnly: true,
+          secure: true,
+          sameSite: "None",
+        });
       }
     } else {
       res.status(400).json({ message: "Invaild crediential" });
