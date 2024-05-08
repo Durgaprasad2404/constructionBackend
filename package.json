@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js",
-    "build": "npm i"
+    "text":"echo \"Error: no test specified\" && exit 1"
   },
   "author": "Durga Prasad",
   "license": "ISC",
