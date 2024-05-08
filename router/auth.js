@@ -1,4 +1,3 @@
-const jwt = require("jsonwebtoken");
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
@@ -6,6 +5,7 @@ const authenticate = require("../middleware/authenticate");
 const cookieParser = require("cookie-parser");
 
 router.use(cookieParser());
+
 require("../db/connection");
 const User = require("../model/userSchema");
 //register
@@ -51,17 +51,14 @@ router.post("/api/login", async (req, res) => {
       // console.log(userLogin);
       token = await userLogin.generateAuthToken();
       // console.log(token);
-
+      res.cookie("jwtoken", token, {
+        expires: new Date(Date.now() + 25892000000),
+        httpOnly: true,
+      });
       if (!isMatch) {
         res.status(400).json({ message: "Invalid password" });
       } else {
         res.json({ message: "user login successfully" });
-        res.cookie("jwtoken", token, {
-          expires: new Date(Date.now() + 25892000000),
-          httpOnly: true,
-          secure: true,
-          sameSite: "None",
-        });
       }
     } else {
       res.status(400).json({ message: "Invaild crediential" });
@@ -73,6 +70,7 @@ router.post("/api/login", async (req, res) => {
 
 router.get("/api/user", authenticate, (req, res) => {
   res.send(req.rootUser);
+  console.log("ban stockssss");
 });
 
 router.get("/api/logout", (req, res) => {

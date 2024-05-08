@@ -3,9 +3,9 @@ const mongoose = require("mongoose");
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-const bodyParser = require("body-parser");
 
 const app = express();
+
 app.use(
   cors({
     origin: "https://frontendconstruction.netlify.app",
@@ -13,14 +13,12 @@ app.use(
   })
 );
 
-app.use(cookieParser());
-app.use(bodyParser.json());
-
 dotenv.config({ path: "./config.env" });
 
 require("./db/connection");
 // const User = require("./model/userSchema");
 
+app.use(cookieParser());
 app.use(express.json());
 app.use(require("./router/auth"));
 
