@@ -8,7 +8,7 @@ const bodyParser = require("body-parser");
 const app = express();
 app.use(
   cors({
-    origin: "https://frontendconstruction.netlify.app",
+    origin: "https://construction-g5o3.onrender.com",
     credentials: true,
   })
 );
