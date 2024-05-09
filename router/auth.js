@@ -85,14 +85,14 @@ router.get("/api/user", Authenticate, (req, res) => {
 });
 
 // Logout route
-router.get("/api/logout", (req, res) => {
-  try {
-    res.clearCookie("jwtoken", { path: "/" });
-    res.status(200).send("User logout");
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Internal Server Error");
-  }
-});
+// router.get("/api/logout", (req, res) => {
+//   try {
+//     res.clearCookie("jwtoken", { path: "/" });
+//     res.status(200).send("User logout");
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).send("Internal Server Error");
+//   }
+// });
 
 module.exports = router;
