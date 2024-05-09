@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const cookieParser = require("cookie-parser");
-const authenticate = require("../middleware/authenticate");
+const Authenticate = require("../middleware/authenticate");
 
 // Load the cookie parser middleware
 router.use(cookieParser());
@@ -80,7 +80,7 @@ router.post("/api/login", async (req, res) => {
 });
 
 // User route (protected)
-router.get("/api/user", authenticate, (req, res) => {
+router.get("/api/user", Authenticate, (req, res) => {
   res.send(req.rootUser);
 });
 

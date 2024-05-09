@@ -1,11 +1,12 @@
 const jwt = require("jsonwebtoken");
 const User = require("../model/userSchema");
 
-const authenticate = async (req, res, next) => {
+const Authenticate = async (req, res, next) => {
   try {
     // Extract JWT token from request cookies
-    let token = req.cookies.jwtoken;
-    // console.log(`"m1:" ${token}`);
+    let jtoken = req.header("Authorization").split(" ");
+    let token = jtoken[1];
+    // console.log(token);
     // Verify JWT token
     const verifyToken = jwt.verify(token, process.env.SECRET_KEY);
 
@@ -34,4 +35,4 @@ const authenticate = async (req, res, next) => {
   }
 };
 
-module.exports = authenticate;
+module.exports = Authenticate;
