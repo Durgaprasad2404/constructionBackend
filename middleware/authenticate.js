@@ -5,7 +5,7 @@ const authenticate = async (req, res, next) => {
   try {
     // Extract JWT token from request cookies
     let token = req.cookies.jwtoken;
-
+    // console.log(`"m1:" ${token}`);
     // Verify JWT token
     const verifyToken = jwt.verify(token, process.env.SECRET_KEY);
 

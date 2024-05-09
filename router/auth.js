@@ -62,14 +62,14 @@ router.post("/api/login", async (req, res) => {
 
     // Generate token
     const token = await userLogin.generateAuthToken();
-
+    // console.log(`token:${token}`);
     // Set JWT token as a cookie
-    res.cookie("jwtoken", token, {
-      expires: new Date(Date.now() + 25892000000),
-      httpOnly: true,
-      sameSite: "lax", // Set SameSite attribute
-      secure: true,
-    });
+    // res.cookie("jwtoken", token, {
+    //   expires: new Date(Date.now() + 25892000000),
+    //   httpOnly: true,
+    //   sameSite: "lax", // Set SameSite attribute
+    //   secure: true,
+    // });
 
     // Send token in response
     res.json({ token, message: "User login successful" });
