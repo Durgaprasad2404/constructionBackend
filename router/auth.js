@@ -10,6 +10,7 @@ router.use(cookieParser());
 // Load database connection and User model
 require("../db/connection");
 const User = require("../model/userSchema");
+const Cart = require("../model/CartSchema");
 
 // Register route
 router.post("/api/register", async (req, res) => {
@@ -83,7 +84,40 @@ router.post("/api/login", async (req, res) => {
 router.get("/api/user", Authenticate, (req, res) => {
   res.send(req.rootUser);
 });
+router.post("/api/addtoCart", Authenticate, async (req, res) => {
+  const { id, itemname, imgUrl, price } = req.body.item;
+  try {
+    // Find or create a cart for the user
+    let cart = await Cart.findOne({ user: req.userID });
+    if (!cart) {
+      cart = new Cart({ user: req.userID, items: [] });
+    }
 
+    // Check if the product is already in the cart
+    const itemIndex = cart.items.findIndex((item) => item.productId === id);
+    // console.log(itemIndex);
+    if (itemIndex > -1) {
+      // Product exists in the cart, update the quantity
+      cart.items[itemIndex].quantity += quantity;
+    } else {
+      // Product does not exist in the cart, add it
+      const newItem = {
+        productId: id,
+        productName: itemname,
+        price: price,
+        productImg: imgUrl,
+        quantity: quantity,
+      };
+      cart.items.push(newItem);
+      console.log(cart);
+    }
+    // Save the cart
+    await cart.save();
+    res.status(200).json(cart);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error });
+  }
+});
 // Logout route
 // router.get("/api/logout", (req, res) => {
 //   try {
