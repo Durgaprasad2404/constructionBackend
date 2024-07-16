@@ -19,7 +19,7 @@ app.use(express.json());
 // Middleware for handling CORS
 app.use(
   cors({
-    origin: "https://construction-g5o3.onrender.com",
+    origin: "*",
     credentials: true,
   })
 );
