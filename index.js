@@ -19,7 +19,7 @@ app.use(express.json());
 // Middleware for handling CORS
 app.use(
   cors({
-    origin: "*",
+    origin: "https://constructionbase.netlify.app",
     credentials: true,
   })
 );
